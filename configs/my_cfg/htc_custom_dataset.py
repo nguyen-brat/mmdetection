@@ -98,9 +98,16 @@ test_evaluator = dict(
 
 # 3. Model settings
 model = dict(
-    backbone = dict(
-        init_cfg = None
-        )
+    backbone=dict(
+        type='CBSwinTransformer',
+        embed_dim=128,
+        depths=[2, 2, 18, 2],
+        num_heads=[4, 8, 16, 32],
+        window_size=7,
+        ape=False,
+        drop_path_rate=0.3,
+        patch_norm=True,
+        use_checkpoint=False)
     )
 
 _base_.model.roi_head.bbox_head[0].num_classes = 2
