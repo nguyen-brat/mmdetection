@@ -18,9 +18,9 @@ from torch.nn import functional as F
 import mmcv
 from mmengine.fileio import FileClient
 from mmengine.fileio import load as load_file
-from mmengine import is_module_wrapper
-from mmcv.utils import mkdir_or_exist
-from mmengine.runner import get_dist_info
+#from mmengine import is_module_wrapper
+from mmengine.utils import mkdir_or_exist
+#from mmengine.runner import get_dist_info
 
 ENV_MMCV_HOME = 'MMCV_HOME'
 ENV_XDG_CACHE_HOME = 'XDG_CACHE_HOME'

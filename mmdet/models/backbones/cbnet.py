@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from mmengine.model import constant_init
-from mmdet.utils import get_root_logger
+#from mmdet.utils import get_root_logger
 from ..builder import BACKBONES
 from .resnet import ResNet, build_norm_layer, _BatchNorm
 from .res2net import Res2Net
