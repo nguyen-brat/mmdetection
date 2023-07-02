@@ -2,5 +2,9 @@ matplotlib
 numpy
 pycocotools
 scipy
+<<<<<<< HEAD
+=======
+shapely
+>>>>>>> test-bran
 six
 terminaltables

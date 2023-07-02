@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 mmcv
+=======
+mmcv>=2.0.0rc4,<2.1.0
+mmengine>=0.7.1,<1.0.0
+>>>>>>> test-bran
 scipy
 torch
 torchvision

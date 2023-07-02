@@ -1,14 +1,21 @@
+# 开始你的第一步
+
 ## 依赖
 
+<<<<<<< HEAD
 - Linux 和 macOS （Windows 理论上支持）
 - Python 3.7 +
 - PyTorch 1.3+
 - CUDA 9.2+ （如果基于 PyTorch 源码安装，也能够支持 CUDA 9.0）
 - GCC 5+
 - [MMCV](https://mmcv.readthedocs.io/en/latest/#installation)
+=======
+本节中，我们将演示如何用 PyTorch 准备一个环境。
+>>>>>>> test-bran
 
-MMDetection 和 MMCV 版本兼容性如下所示，需要安装正确的 MMCV 版本以避免安装出现问题。
+MMDetection 支持在 Linux，Windows 和 macOS 上运行。它需要 Python 3.7 以上，CUDA 9.2 以上和 PyTorch 1.6 以上。
 
+<<<<<<< HEAD
 | MMDetection 版本 |         MMCV 版本          |
 | :--------------: | :------------------------: |
 |      master      | mmcv-full>=1.3.17, \<1.8.0 |
@@ -52,30 +59,54 @@ MMDetection 和 MMCV 版本兼容性如下所示，需要安装正确的 MMCV �
 |      2.2.0       |        mmcv==0.6.2         |
 |      2.1.0       |   mmcv>=0.5.9, \<=0.6.1    |
 |      2.0.0       |   mmcv>=0.5.1, \<=0.5.8    |
+=======
+```{note}
+如果你对 PyTorch 有经验并且已经安装了它，你可以直接跳转到[下一小节](#安装流程)。否则，你可以按照下述步骤进行准备。
+```
+>>>>>>> test-bran
 
-\*\*注意：\*\*如果已经安装了 mmcv，首先需要使用 `pip uninstall mmcv` 卸载已安装的 mmcv，如果同时安装了 mmcv 和 mmcv-full，将会报 `ModuleNotFoundError` 错误。
+**步骤 0.** 从[官方网站](https://docs.conda.io/en/latest/miniconda.html)下载并安装 Miniconda。
+
+**步骤 1.** 创建并激活一个 conda 环境。
+
+```shell
+conda create --name openmmlab python=3.8 -y
+conda activate openmmlab
+```
+
+**步骤 2.** 基于 [PyTorch 官方说明](https://pytorch.org/get-started/locally/)安装 PyTorch。
+
+在 GPU 平台上：
+
+```shell
+conda install pytorch torchvision -c pytorch
+```
+
+在 CPU 平台上：
+
+```shell
+conda install pytorch torchvision cpuonly -c pytorch
+```
 
 ## 安装流程
 
-### 从零开始设置脚本
+我们推荐用户参照我们的最佳实践安装 MMDetection。不过，整个过程也是可定制化的，更多信息请参考[自定义安装](#自定义安装)章节。
 
-假设当前已经成功安装 CUDA 10.1，这里提供了一个完整的基于 conda 安装 MMDetection 的脚本。您可以参考下一节中的分步安装说明。
+### 最佳实践
+
+**步骤 0.** 使用 [MIM](https://github.com/open-mmlab/mim) 安装 [MMEngine](https://github.com/open-mmlab/mmengine) 和 [MMCV](https://github.com/open-mmlab/mmcv)。
 
 ```shell
-conda create -n openmmlab python=3.7 pytorch==1.6.0 cudatoolkit=10.1 torchvision -c pytorch -y
-conda activate openmmlab
-pip install openmim
-mim install mmcv-full
-git clone https://github.com/open-mmlab/mmdetection.git
-cd mmdetection
-pip install -r requirements/build.txt
-pip install -v -e .
+pip install -U openmim
+mim install mmengine
+mim install "mmcv>=2.0.0"
 ```
 
-### 准备环境
+**注意：** 在 MMCV-v2.x 中，`mmcv-full` 改名为 `mmcv`，如果你想安装不包含 CUDA 算子精简版，可以通过 `mim install "mmcv-lite>=2.0.0rc1"` 来安装。
 
-1. 使用 conda 新建虚拟环境，并进入该虚拟环境；
+**步骤 1.** 安装 MMDetection。
 
+<<<<<<< HEAD
    ```shell
    conda create -n open-mmlab python=3.7 -y
    conda activate open-mmlab
@@ -106,110 +137,124 @@ pip install -v -e .
 ### 安装 MMDetection
 
 我们建议使用 [MIM](https://github.com/open-mmlab/mim) 来安装 MMDetection：
+=======
+方案 a：如果你开发并直接运行 mmdet，从源码安装它：
 
 ```shell
-pip install openmim
+git clone https://github.com/open-mmlab/mmdetection.git
+cd mmdetection
+pip install -v -e .
+# "-v" 指详细说明，或更多的输出
+# "-e" 表示在可编辑模式下安装项目，因此对代码所做的任何本地修改都会生效，从而无需重新安装。
+```
+
+方案 b：如果你将 mmdet 作为依赖或第三方 Python 包，使用 MIM 安装：
+>>>>>>> test-bran
+
+```shell
 mim install mmdet
 ```
 
-MIM 能够自动地安装 OpenMMLab 的项目以及对应的依赖包。
+## 验证安装
 
-或者，可以手动安装 MMDetection：
+为了验证 MMDetection 是否安装正确，我们提供了一些示例代码来执行模型推理。
 
-1. 安装 mmcv-full，我们建议使用预构建包来安装：
+**步骤 1.** 我们需要下载配置文件和模型权重文件。
 
-   ```shell
-   pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/{cu_version}/{torch_version}/index.html
-   ```
+```shell
+mim download mmdet --config rtmdet_tiny_8xb32-300e_coco --dest .
+```
 
-   需要把命令行中的 `{cu_version}` 和 `{torch_version}` 替换成对应的版本。例如：在 CUDA 11 和 PyTorch 1.7.0 的环境下，可以使用下面命令安装最新版本的 MMCV：
+下载将需要几秒钟或更长时间，这取决于你的网络环境。完成后，你会在当前文件夹中发现两个文件 `rtmdet_tiny_8xb32-300e_coco.py` 和 `rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth`。
 
-   ```shell
-   pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu110/torch1.7.0/index.html
-   ```
+**步骤 2.** 推理验证。
 
-   请参考 [MMCV](https://mmcv.readthedocs.io/en/latest/#installation) 获取不同版本的 MMCV 所兼容的的不同的 PyTorch 和 CUDA 版本。同时，也可以通过以下命令行从源码编译 MMCV：
+方案 a：如果你通过源码安装的 MMDetection，那么直接运行以下命令进行验证：
 
-   ```shell
-   git clone https://github.com/open-mmlab/mmcv.git
-   cd mmcv
-   MMCV_WITH_OPS=1 pip install -e .  # 安装好 mmcv-full
-   cd ..
-   ```
+```shell
+python demo/image_demo.py demo/demo.jpg rtmdet_tiny_8xb32-300e_coco.py --weights rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth --device cpu
+```
 
-   或者，可以直接使用命令行安装：
+你会在当前文件夹中的 `outputs/vis` 文件夹中看到一个新的图像 `demo.jpg`，图像中包含有网络预测的检测框。
 
-   ```shell
-   pip install mmcv-full
-   ```
+方案 b：如果你通过 MIM 安装的 MMDetection，那么可以打开你的 Python 解析器，复制并粘贴以下代码：
 
-   PyTorch 在 1.x.0 和 1.x.1 之间通常是兼容的，故 mmcv-full 只提供 1.x.0 的编译包。如果你的 PyTorch 版本是 1.x.1，你可以放心地安装在 1.x.0 版本编译的 mmcv-full。
+```python
+from mmdet.apis import init_detector, inference_detector
 
-   ```
-   # 我们可以忽略 PyTorch 的小版本号
-   pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu110/torch1.7/index.html
-   ```
+config_file = 'rtmdet_tiny_8xb32-300e_coco.py'
+checkpoint_file = 'rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth'
+model = init_detector(config_file, checkpoint_file, device='cpu')  # or device='cuda:0'
+inference_detector(model, 'demo/demo.jpg')
+```
 
-2. 安装 MMDetection：
+你将会看到一个包含 `DetDataSample` 的列表，预测结果在 `pred_instance` 里，包含有检测框，类别和得分。
 
-   你可以直接通过如下命令从 pip 安装使用 mmdetection:
+### 自定义安装
 
-   ```shell
-   pip install mmdet
-   ```
+#### CUDA 版本
 
-   或者从 git 仓库编译源码
+在安装 PyTorch 时，你需要指定 CUDA 的版本。如果你不清楚应该选择哪一个，请遵循我们的建议：
 
-   ```shell
-   git clone https://github.com/open-mmlab/mmdetection.git
-   cd mmdetection
-   pip install -r requirements/build.txt
-   pip install -v -e .  # or "python setup.py develop"
-   ```
+- 对于 Ampere 架构的 NVIDIA GPU，例如 GeForce 30 系列以及 NVIDIA A100，CUDA 11 是必需的。
+- 对于更早的 NVIDIA GPU，CUDA 11 是向后兼容 (backward compatible) 的，但 CUDA 10.2 能够提供更好的兼容性，也更加轻量。
 
-3. 安装额外的依赖以使用 Instaboost, 全景分割, 或者 LVIS 数据集
+请确保你的 GPU 驱动版本满足最低的版本需求，参阅 NVIDIA 官方的 [CUDA 工具箱和相应的驱动版本关系表](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-major-component-versions__table-cuda-toolkit-driver-versions)。
 
-   ```shell
-   # 安装 instaboost 依赖
-   pip install instaboostfast
-   # 安装全景分割依赖
-   pip install git+https://github.com/cocodataset/panopticapi.git
-   # 安装 LVIS 数据集依赖
-   pip install git+https://github.com/lvis-dataset/lvis-api.git
-   # 安装 albumentations 依赖
-   pip install -r requirements/albu.txt
-   ```
+```{note}
+如果按照我们的最佳实践，安装 CUDA 运行时库就足够了，这是因为不需要在本地编译 CUDA 代码。但如果你希望从源码编译 MMCV，或是开发其他 CUDA 算子，那么就必须安装完整的 CUDA 工具链，参见 [NVIDIA 官网](https://developer.nvidia.com/cuda-downloads)，另外还需要确保该 CUDA 工具链的版本与 PyTorch 安装时的配置相匹配（如用 `conda install` 安装 PyTorch 时指定的 cudatoolkit 版本）。
+```
 
-**注意：**
+#### 不使用 MIM 安装 MMEngine
 
-(1) 按照上述说明，MMDetection 安装在 `dev` 模式下，因此在本地对代码做的任何修改都会生效，无需重新安装；
+要使用 pip 而不是 MIM 来安装 MMEngine，请遵照 [MMEngine 安装指南](https://mmengine.readthedocs.io/zh_CN/latest/get_started/installation.html)。
 
-(2) 如果希望使用 `opencv-python-headless` 而不是 `opencv-python`， 可以在安装 MMCV 之前安装；
+例如，你可以通过以下命令安装 MMEngine。
 
+<<<<<<< HEAD
 (3) 一些安装依赖是可以选择的。例如只需要安装最低运行要求的版本，则可以使用 `pip install -v -e .` 命令。如果希望使用可选择的像 `albumentations` 和 `imagecorruptions` 这种依赖项，可以使用 `pip install -r requirements/optional.txt` 进行手动安装，或者在使用 `pip` 时指定所需的附加功能（例如 `pip install -v -e .[optional]`），支持附加功能的有效键值包括 `all`、`tests`、`build` 以及 `optional` 。
+=======
+```shell
+pip install mmengine
+```
+>>>>>>> test-bran
 
-(4) 如果希望使用 `albumentations`，我们建议使用 `pip install -r requirements/albu.txt` 或者 `pip install -U albumentations --no-binary qudida,albumentations` 进行安装。 如果简单地使用 `pip install albumentations>=0.3.2` 进行安装，则会同时安装 `opencv-python-headless`（即便已经安装了 `opencv-python` 也会再次安装）。我们建议在安装 `albumentations` 后检查环境，以确保没有同时安装 `opencv-python` 和 `opencv-python-headless`，因为同时安装可能会导致一些问题。更多细节请参考[官方文档](https://albumentations.ai/docs/getting_started/installation/#note-on-opencv-dependencies)。
+#### 不使用 MIM 安装 MMCV
 
-### 只在 CPU 安装
+MMCV 包含 C++ 和 CUDA 扩展，因此其对 PyTorch 的依赖比较复杂。MIM 会自动解析这些依赖，选择合适的 MMCV 预编译包，使安装更简单，但它并不是必需的。
 
-我们的代码能够建立在只使用 CPU 的环境（CUDA 不可用）。
+要使用 pip 而不是 MIM 来安装 MMCV，请遵照 [MMCV 安装指南](https://mmcv.readthedocs.io/zh_CN/2.x/get_started/installation.html)。它需要您用指定 url 的形式手动指定对应的 PyTorch 和 CUDA 版本。
 
+<<<<<<< HEAD
 在 CPU 模式下，可以进行模型训练（需要 MMCV 版本 >= 1.4.4)、测试或者推理，然而以下功能将在 CPU 模式下不能使用：
+=======
+例如，下述命令将会安装基于 PyTorch 1.12.x 和 CUDA 11.6 编译的 MMCV。
+
+```shell
+pip install "mmcv>=2.0.0" -f https://download.openmmlab.com/mmcv/dist/cu116/torch1.12.0/index.html
+```
+
+#### 在 CPU 环境中安装
+
+MMDetection 可以在 CPU 环境中构建。在 CPU 模式下，可以进行模型训练（需要 MMCV 版本 >= 2.0.0rc1）、测试或者推理。
+
+但是，以下功能在该模式下不能使用：
+>>>>>>> test-bran
 
 - Deformable Convolution
 - Modulated Deformable Convolution
 - ROI pooling
 - Deformable ROI pooling
-- CARAFE: Content-Aware ReAssembly of FEatures
+- CARAFE
 - SyncBatchNorm
-- CrissCrossAttention: Criss-Cross Attention
+- CrissCrossAttention
 - MaskedConv2d
 - Temporal Interlace Shift
 - nms_cuda
 - sigmoid_focal_loss_cuda
 - bbox_overlaps
 
-因此，如果尝试使用包含上述操作的模型进行训练/测试/推理，将会报错。下表列出了由于依赖上述算子而无法在 CPU 上运行的相关模型：
+因此，如果尝试训练/测试/推理包含上述算子的模型，将会报错。下表列出了将会受影响的相关算法。
 
 |                          操作                           |                                           模型                                           |
 | :-----------------------------------------------------: | :--------------------------------------------------------------------------------------: |
@@ -218,47 +263,68 @@ MIM 能够自动地安装 OpenMMLab 的项目以及对应的依赖包。
 |                         CARAFE                          |                                          CARAFE                                          |
 |                      SyncBatchNorm                      |                                         ResNeSt                                          |
 
-### 另一种选择： Docker 镜像
+#### 在 Google Colab 中安装
 
+<<<<<<< HEAD
 我们提供了 [Dockerfile](https://github.com/open-mmlab/mmdetection/blob/master/docker/Dockerfile) 来生成镜像，请确保 [docker](https://docs.docker.com/engine/install/) 的版本 >= 19.03。
+=======
+[Google Colab](https://colab.research.google.com/) 通常已经包含了 PyTorch 环境，因此我们只需要安装 MMEngine，MMCV 和 MMDetection 即可，命令如下：
+
+**步骤 1.** 使用 [MIM](https://github.com/open-mmlab/mim) 安装 [MMEngine](https://github.com/open-mmlab/mmengine) 和 [MMCV](https://github.com/open-mmlab/mmcv)。
+>>>>>>> test-bran
 
 ```shell
-# 基于 PyTorch 1.6, CUDA 10.1 生成镜像
+!pip3 install openmim
+!mim install mmengine
+!mim install "mmcv>=2.0.0,<2.1.0"
+```
+
+**步骤 2.** 使用源码安装 MMDetection。
+
+```shell
+!git clone https://github.com/open-mmlab/mmdetection.git
+%cd mmdetection
+!pip install -e .
+```
+
+**步骤 3.** 验证安装是否成功。
+
+```python
+import mmdet
+print(mmdet.__version__)
+# 预期输出：3.0.0 或其他版本号
+```
+
+```{note}
+在 Jupyter Notebook 中，感叹号 `!` 用于执行外部命令，而 `%cd` 是一个[魔术命令](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-cd)，用于切换 Python 的工作路径。
+```
+
+#### 通过 Docker 使用 MMDetection
+
+我们提供了一个 [Dockerfile](../../docker/Dockerfile) 来构建一个镜像。请确保你的 [docker 版本](https://docs.docker.com/engine/install/) >=19.03。
+
+```shell
+# 基于 PyTorch 1.9，CUDA 11.1 构建镜像
+# 如果你想要其他版本，只需要修改 Dockerfile
 docker build -t mmdetection docker/
 ```
 
-运行命令：
+用以下命令运行 Docker 镜像：
 
 ```shell
 docker run --gpus all --shm-size=8g -it -v {DATA_DIR}:/mmdetection/data mmdetection
 ```
 
+### 排除故障
+
+如果你在安装过程中遇到一些问题，请先查看 [FAQ](notes/faq.md) 页面。如果没有找到解决方案，你也可以在 GitHub 上[提出一个问题](https://github.com/open-mmlab/mmdetection/issues/new/choose)。
+
 ### 使用多个 MMDetection 版本进行开发
 
-训练和测试的脚本已经在 PYTHONPATH 中进行了修改，以确保脚本使用当前目录中的 MMDetection。
+训练和测试的脚本已经在 `PYTHONPATH` 中进行了修改，以确保脚本使用当前目录中的 MMDetection。
 
-要使环境中安装默认的 MMDetection 而不是当前正在在使用的，可以删除出现在相关脚本中的代码：
+要使环境中安装默认版本的 MMDetection 而不是当前正在使用的，可以删除出现在相关脚本中的代码：
 
 ```shell
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH
 ```
-
-## 验证
-
-为了验证是否正确安装了 MMDetection 和所需的环境，我们可以运行示例的 Python 代码来初始化检测器并推理一个演示图像：
-
-```python
-from mmdet.apis import init_detector, inference_detector
-
-config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
-# 从 model zoo 下载 checkpoint 并放在 `checkpoints/` 文件下
-# 网址为: http://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth
-checkpoint_file = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
-device = 'cuda:0'
-# 初始化检测器
-model = init_detector(config_file, checkpoint_file, device=device)
-# 推理演示图像
-inference_detector(model, 'demo/demo.jpg')
-```
-
-如果成功安装 MMDetection，则上面的代码可以完整地运行。

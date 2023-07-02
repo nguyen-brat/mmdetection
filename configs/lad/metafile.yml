@@ -19,9 +19,12 @@ Collections:
       Version: v2.19.0
 
 Models:
+<<<<<<< HEAD
   - Name: lad_r101_paa_r50_fpn_coco_1x
+=======
+  - Name: lad_r101-paa-r50_fpn_2xb8_coco_1x
     In Collection: Label Assignment Distillation
-    Config: configs/lad/lad_r101_paa_r50_fpn_coco_1x.py
+    Config: configs/lad/lad_r101-paa-r50_fpn_2xb8_coco_1x.py
     Metadata:
       Training Memory (GB): 12.4
       Epochs: 12
@@ -29,6 +32,24 @@ Models:
     - Task: Object Detection
       Dataset: COCO
       Metrics:
+        box AP: 43.2
+    Weights: https://download.openmmlab.com/mmdetection/v2.0/lad/lad_r101_paa_r50_fpn_coco_1x/lad_r101_paa_r50_fpn_coco_1x_20220708_124357-9407ac54.pth
+  - Name: lad_r50-paa-r101_fpn_2xb8_coco_1x
+>>>>>>> test-bran
+    In Collection: Label Assignment Distillation
+    Config: configs/lad/lad_r50-paa-r101_fpn_2xb8_coco_1x.py
+    Metadata:
+<<<<<<< HEAD
+      Training Memory (GB): 12.4
+=======
+      Training Memory (GB): 8.9
+>>>>>>> test-bran
+      Epochs: 12
+    Results:
+    - Task: Object Detection
+      Dataset: COCO
+      Metrics:
+<<<<<<< HEAD
         box AP: 43.2
     Weights: https://download.openmmlab.com/mmdetection/v2.0/lad/lad_r101_paa_r50_fpn_coco_1x/lad_r101_paa_r50_fpn_coco_1x_20220708_124357-9407ac54.pth
   - Name: lad_r50_paa_r101_fpn_coco_1x
@@ -41,5 +62,7 @@ Models:
     - Task: Object Detection
       Dataset: COCO
       Metrics:
+=======
+>>>>>>> test-bran
         box AP: 41.4
     Weights: https://download.openmmlab.com/mmdetection/v2.0/lad/lad_r50_paa_r101_fpn_coco_1x/lad_r50_paa_r101_fpn_coco_1x_20220708_124246-74c76ff0.pth
