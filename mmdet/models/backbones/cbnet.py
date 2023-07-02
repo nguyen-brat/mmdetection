@@ -9,7 +9,7 @@ from .resnet import ResNet, build_norm_layer, _BatchNorm
 from .res2net import Res2Net
 from .swin_transformer import SwinTransformer
 
-from mmcv.runner import BaseModule
+from mmengine.model import BaseModule
 '''
 For CNN
 '''
