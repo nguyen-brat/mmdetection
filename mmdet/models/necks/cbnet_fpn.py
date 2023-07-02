@@ -1,6 +1,6 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from mmcv.cnn import xavier_init
+from mmengine.model import xavier_init
 
 from ..builder import NECKS
 from .fpn import FPN
