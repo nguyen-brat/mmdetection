@@ -16,7 +16,7 @@ from mmcv_custom import load_checkpoint
 from mmdet.utils import get_root_logger
 from ..builder import BACKBONES
 
-from mmcv.runner import BaseModule
+from mmengine.model import BaseModule
 
 class Mlp(nn.Module):
     """ Multilayer perceptron."""
