@@ -3,7 +3,7 @@ _base_ = '../htc/htc-without-semantic_r50_fpn_1x_coco.py'
 # 1. Dataset settings
 dataset_type = 'CocoDataset'
 classes = ('human', 'ball')
-data_root = "/home/nguyen/code/Instance segmentation/Data/vipriors-segmentation-data-2022/"
+data_root = "/content/drive/MyDrive/instance_segmentation/vipriors-segmentation-data-2022/"
 image_size = (1624,1234)
 
 load_pipeline = [
