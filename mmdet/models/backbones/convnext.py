@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from timm.models.layers import trunc_normal_, DropPath
 
 from mmengine.runner import load_checkpoint
-from mmdet.utils import get_root_logger
+from mmdet.utils import get_caller_name
 from mmdet.registry import MODELS
 
 class Block(nn.Module):
@@ -147,7 +147,7 @@ class ConvNeXt(nn.Module):
 
         if isinstance(pretrained, str):
             self.apply(_init_weights)
-            logger = get_root_logger()
+            logger = get_caller_name()
             load_checkpoint(self, pretrained, strict=False, logger=logger)
         elif pretrained is None:
             self.apply(_init_weights)
