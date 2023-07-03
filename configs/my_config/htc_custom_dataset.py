@@ -99,6 +99,7 @@ test_evaluator = dict(
 # 3. Model settings
 model = dict(
     backbone = dict(
+        _delete_ = True,
         type='ConvNeXt',
         in_chans=3,
         depths=[3, 3, 9, 3],
